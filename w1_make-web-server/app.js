@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 
 const app = express()
-const port = 3000
+const port = 8000
 const rootDir = path.dirname(process.mainModule.filename)
 
 app.use(express.static('.'))
