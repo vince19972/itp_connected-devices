@@ -14,6 +14,21 @@ const sampleRate = { speedHz: 20000 };  // ADC sample rate
 let device = {};      // object for device characteristics
 let channels = [];    // list for ADC channels
 
+
+/////////
+// import required modules
+const Gpio = require('onoff').Gpio
+
+// pin init
+const led = new Gpio(17, 'out')
+const ledGreen = new Gpio(18, 'out')
+
+// global flags
+let ledState = 0
+let ledStateGreen = 1
+
+
+
 // open two ADC channels and push them to the channels list:
 let tempSensor = mcpadc.open(0, sampleRate, addNewChannel);
 channels.push(tempSensor);
@@ -46,10 +61,23 @@ function checkSensors() {
     tempSensor.read(getTemperature);
     potentiometer.read(getKnob);
   }
+
+
+  // led controls
+  if (device.potentiometer > 0.5) {
+    ledState = 1
+    ledStateGreen = 0
+  } else {
+    ledState = 0
+    ledStateGreen = 1
+  }
+
+  led.writeSync(ledState)
+  ledGreen.writeSync(ledStateGreen)
 }
 
 // set an interval once a second to read the sensors:
-setInterval(checkSensors, 1000);
+setInterval(checkSensors, 5000);
 
 // exporting data
 module.exports = device

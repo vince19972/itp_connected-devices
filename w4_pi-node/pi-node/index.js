@@ -15,7 +15,7 @@ const StringDecoder = require('string_decoder').StringDecoder
 
 // declare root variables
 const rootDir = path.dirname(process.mainModule.filename)
-const deviceData = require(path.join(rootDir, 'src', 'js', 'sensorReading.js'))
+const deviceData = require(path.join(rootDir, 'sensorReading.js'))
 const decoder = new StringDecoder('utf-8')
 
 /*
@@ -65,6 +65,8 @@ const set = {
     const request = https.request(get.options(postData), set.httpCallback)
     request.write(postData)
     request.end()
+
+    console.log(deviceData)
   }
 }
 
@@ -75,4 +77,4 @@ const set = {
 */
 
 // set interval to send data to server
-setInterval(set.sendData, 3000)
+setInterval(set.sendData, 1000 * 60 * 60)
